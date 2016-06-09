@@ -14,3 +14,13 @@ raspberrypi-sys-mods
 pi-bluetooth
 apt-listchanges
 usb-modeswitch
+samba
+postgresql-9.4
+calendarserver
+fail2ban
+dovecot-core dovecot-imapd dovecot-lmtpd dovecot-sieve
+opendkim opendkim-tools
+opendmarc
+redis-server
+libsasl2-dev python-dev libldap2-dev libssl-dev
+python-pip python-crypto libffi-dev libssl-dev python-dev python-yaml git

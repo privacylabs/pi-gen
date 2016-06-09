@@ -9,8 +9,8 @@ on_chroot sh -e - <<EOF
 if ! id -u pi >/dev/null 2>&1; then
 	adduser --disabled-password --gecos "" pi
 fi
-echo "pi:raspberry" | chpasswd
-echo "root:root" | chpasswd
+echo "pi:${IMG_PASSWORD}" | chpasswd
+echo "root:${IMG_PASSWORD}" | chpasswd
 EOF
 
 

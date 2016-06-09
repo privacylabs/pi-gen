@@ -121,10 +121,42 @@ if [ -f config ]; then
 	source config
 fi
 
+
+OPTS=`getopt -o h:p: --long hostname:,password: -n 'build-pi-image' -- "$@"`
+eval set -- "$OPTS"
+
+while true; do
+  case "$1" in
+    -h | --hostname )
+      HOSTNAME="$2";
+      IMG_NAME="${HOSTNAME}.img";
+      echo "HOSTNAME = ${HOSTNAME}";
+      shift; shift;;
+    -p | --password )
+      PASSWORD="$2";
+      echo "PASSWORD = ${PASSWORD}";
+      shift; shift;;
+    -- ) shift; break ;;
+    * ) break ;;
+  esac
+done
+
+
 if [ -z "${IMG_NAME}" ]; then
 	echo "IMG_NAME not set" 1>&2
 	exit 1
 fi
+
+if [ ! -z "${HOSTNAME}" ]; then
+  echo "writing ${HOSTNAME} to hostname file"
+  echo ${HOSTNAME} > ./stage1/02-net-tweaks/files/hostname
+fi
+
+if [ ! -z "${PASSWORD}" ]; then
+  echo "PASSWORD TEST ${PASSWORD}"
+fi
+
+export IMG_PASSWORD="${PASSWORD}"
 
 export IMG_DATE=${IMG_DATE:-"$(date -u +%Y-%m-%d)"}
 
@@ -136,7 +168,7 @@ export LOG_FILE="${WORK_DIR}/build.log"
 
 export CLEAN
 export IMG_NAME
-export APT_PROXY
+export APT_PROXY="http://localhost:3142/archive.raspbian.org/raspbian"
 
 export STAGE
 export STAGE_DIR
