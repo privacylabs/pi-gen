@@ -1,0 +1,21 @@
+---
+  - name: update packages
+    apt:
+      update_cache: yes
+      cache_valid_time: 3600
+      upgrade: dist
+    become: yes
+
+  - name: install required packages
+    package:
+      name: '{{ item }}'
+      state: present
+    with_items: ['git', 'binfmt-support', 'qemu', 'qemu-user-static', 'debootstrap', 'kpartx', 'lvm2', 'dosfstools', 'apt-cacher-ng']
+    become: yes
+
+  - name: install additional packages
+    package:
+      name: '{{ item }}'
+      state: present
+    with_items: ['quilt', 'kpartx', 'realpath', 'qemu-user-static', 'debootstrap', 'zerofree', 'zip']
+    become: yes
