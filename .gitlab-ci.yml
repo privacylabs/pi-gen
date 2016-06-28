@@ -4,7 +4,7 @@ stages:
 build_job:
   script:
     - vagrant up
-    - vagrant destroy
+    - vagrant destroy --force
   stage: build
   except:
     - /v[0-9].*$/
@@ -12,7 +12,7 @@ build_job:
 release_job:
   script:
     - vagrant up
-    - vagrant destroy
+    - vagrant destroy --force
   stage: build
   artifacts:
     paths:

@@ -80,5 +80,15 @@ Vagrant.configure(2) do |config|
           "build" => ["default"]
 	}
 	ansible.playbook = "build.yml"
- end
+  end
+
+$script = <<SCRIPT
+mkdir -p /home/vagrant/src
+cp -r /vagrant/* /home/vagrant/src/
+cd  /home/vagrant/src && sudo IMG_NAME='oasis' ./build.sh --hostname='raspberrypi' --password='raspberry'
+cp /home/vagrant/src/deploy/*.zip /vagrant_data/
+SCRIPT
+
+  config.vm.provision "shell", inline: $script
+
 end
