@@ -1,0 +1,21 @@
+stages:
+  - build
+
+build_job:
+  script:
+    - vagrant up
+    - vagrant destroy
+  stage: build
+  except:
+    - /v[0-9].*$/
+
+release_job:
+  script:
+    - vagrant up
+    - vagrant destroy
+  stage: build
+  artifacts:
+    paths:
+      - ./data/*.zip 
+  only:
+    - /v[0-9].*$/
