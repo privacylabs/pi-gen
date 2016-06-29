@@ -83,10 +83,10 @@ run_stage(){
 	unmount ${WORK_DIR}/${STAGE}
 	STAGE_WORK_DIR=${WORK_DIR}/${STAGE}
 	ROOTFS_DIR=${STAGE_WORK_DIR}/rootfs
-	if [ -f ${STAGE_DIR}/EXPORT_IMAGE ]; then
-		EXPORT_DIRS="${EXPORT_DIRS} ${STAGE_DIR}"
-	fi
 	if [ ! -f SKIP ]; then
+		if [ -f ${STAGE_DIR}/EXPORT_IMAGE ]; then
+			EXPORT_DIRS="${EXPORT_DIRS} ${STAGE_DIR}"
+		fi
 		if [ "${CLEAN}" = "1" ]; then
 			if [ -d ${ROOTFS_DIR} ]; then
 				rm -rf ${ROOTFS_DIR}
@@ -129,7 +129,6 @@ while true; do
   case "$1" in
     -h | --hostname )
       HOSTNAME="$2";
-      IMG_NAME="${HOSTNAME}.img";
       echo "HOSTNAME = ${HOSTNAME}";
       shift; shift;;
     -p | --password )
@@ -141,12 +140,6 @@ while true; do
   esac
 done
 
-
-if [ -z "${IMG_NAME}" ]; then
-	echo "IMG_NAME not set" 1>&2
-	exit 1
-fi
-
 if [ ! -z "${HOSTNAME}" ]; then
   echo "writing ${HOSTNAME} to hostname file"
   echo ${HOSTNAME} > ./stage1/02-net-tweaks/files/hostname
@@ -157,7 +150,7 @@ if [ ! -z "${PASSWORD}" ]; then
 fi
 
 export IMG_PASSWORD="${PASSWORD}"
-
+export IMG_NAME="oasis"
 export IMG_DATE=${IMG_DATE:-"$(date -u +%Y-%m-%d)"}
 
 export BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
