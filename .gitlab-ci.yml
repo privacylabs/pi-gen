@@ -7,7 +7,7 @@ build_job:
     - vagrant destroy --force
   stage: build
   except:
-    - /*-oasis-jessie$/
+    - /oasis-jessie$/
 
 release_job:
   script:
@@ -18,4 +18,4 @@ release_job:
     paths:
       - ./data/*.zip 
   only:
-    - /*-oasis-jessie$/
+    - /oasis-jessie$/
