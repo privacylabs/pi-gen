@@ -162,7 +162,7 @@ export LOG_FILE="${WORK_DIR}/build.log"
 export HOSTNAME
 export CLEAN
 export IMG_NAME
-export APT_PROXY="http://localhost:3142/archive.raspbian.org/raspbian"
+export APT_PROXY="${APT_PROXY}"
 
 export STAGE
 export STAGE_DIR

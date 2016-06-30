@@ -85,10 +85,13 @@ Vagrant.configure(2) do |config|
 $script = <<SCRIPT
 mkdir -p /home/vagrant/src
 cp -r /vagrant/* /home/vagrant/src/
-cd  /home/vagrant/src && sudo ./build.sh --hostname='raspberrypi' --password='raspberry'
+cd  /home/vagrant/src && sudo APT_PROXY=$APT_PROXY ./build.sh --hostname='raspberrypi' --password='raspberry'
 cp /home/vagrant/src/deploy/*.zip /vagrant_data/
 SCRIPT
 
-  config.vm.provision "shell", inline: $script
+  config.vm.provision "shell" do |s|
+    s.env = {APT_PROXY:ENV['APT_PROXY']}
+    s.inline = $script
+  end
 
 end

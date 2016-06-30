@@ -3,7 +3,7 @@ stages:
 
 build_job:
   script:
-    - vagrant up
+    - APT_PROXY=http://localhost:3142/archive.raspbian.org/raspbian vagrant up
     - vagrant destroy --force
   stage: build
   except:
@@ -11,7 +11,7 @@ build_job:
 
 release_job:
   script:
-    - vagrant up
+    - APT_PROXY=http://localhost:3142/archive.raspbian.org/raspbian vagrant up
     - vagrant destroy --force
   stage: build
   artifacts:
