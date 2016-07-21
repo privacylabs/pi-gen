@@ -1,5 +1,5 @@
---- fstab	2016-07-21 14:43:08.000000000 -0700
-+++ fstab.new	2016-07-21 14:43:13.000000000 -0700
+--- a/rootfs/etc/fstab
++++ b/rootfs/etc/fstab
 @@ -1,4 +1,5 @@
  proc            /proc           proc    defaults          0       0
  /dev/mmcblk0p1  /boot           vfat    defaults          0       2
