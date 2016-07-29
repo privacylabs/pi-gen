@@ -1,17 +1,19 @@
 #!/bin/bash -e
 IMG_FILE="${STAGE_WORK_DIR}/${IMG_DATE}-${IMG_NAME}${IMG_SUFFIX}.img"
+SYS_FILE="${STAGE_WORK_DIR}/${IMG_DATE}-${IMG_NAME}-system.img"
 
 unmount_image ${IMG_FILE}
 
 rm -f ${IMG_FILE}
+rm -f ${SYS_FILE}
 
 rm -rf ${ROOTFS_DIR}
 mkdir -p ${ROOTFS_DIR}
 
 BOOT_SIZE=$(du -sh ${EXPORT_ROOTFS_DIR}/boot -B M | cut -f 1 | tr -d M)
-TOTAL_SIZE=$(du -sh ${EXPORT_ROOTFS_DIR} -B M | cut -f 1 | tr -d M)
+ROOT_SIZE=$(du -sh ${EXPORT_ROOTFS_DIR} -B M | cut -f 1 | tr -d M)
 
-IMG_SIZE=$(expr $BOOT_SIZE \* 2 \+ $TOTAL_SIZE \* 2 \+ 80)M
+IMG_SIZE=$(expr $BOOT_SIZE \* 2 \+ $ROOT_SIZE \* 2 \+ 80)M
 
 fallocate -l ${IMG_SIZE} ${IMG_FILE}
 fdisk ${IMG_FILE} > /dev/null 2>&1 <<EOF
@@ -29,7 +31,7 @@ n
 
 8192
 
-+`expr $TOTAL_SIZE \* 2`M
++`expr $ROOT_SIZE \* 2`M
 p
 n
 
@@ -57,3 +59,4 @@ mkdir -p ${ROOTFS_DIR}/data
 mount -v $DATA_DEV ${ROOTFS_DIR}/data -t ext4
 
 rsync ${EXPORT_ROOTFS_DIR}/ ${ROOTFS_DIR}/ -aHAX
+dd if=/dev/mapper/${LOOP_DEV}p2 of=${SYS_FILE}
