@@ -75,12 +75,12 @@ check_variables () {
   fi
 
   if [ $DATA_PART_NUM -ne $LAST_PART_NUM ]; then
-    FAIL_REASON="Root partition should be last partition"
+    FAIL_REASON="Data partition should be last partition"
     return 1
   fi
 
   if [ $DATA_PART_END -gt $TARGET_END ]; then
-    FAIL_REASON="Root partition runs past the end of device"
+    FAIL_REASON="Data partition runs past the end of device"
     return 1
   fi
 

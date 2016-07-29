@@ -1,6 +1,7 @@
 #!/bin/bash -e
 
 on_chroot sh -e - <<EOF
+echo ${IMG_DATE} > /etc/build_date
 if [ ! -d oasis ]; then
 git clone https://github.com/privacylabs/oasis --recursive
 fi
