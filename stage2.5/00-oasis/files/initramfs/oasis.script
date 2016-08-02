@@ -1,0 +1,50 @@
+#!/bin/sh
+
+PREREQ="udev"
+
+update_system()
+{
+        latest=$(find /data/cache/system/ -name *.img | head -1)
+        if [ -n $latest ]; then
+                log_warning_msg "system image found, performing update"
+                dd if="$latest" of="$1"
+                rm /data/cache/system/*.img
+        else
+                log_warning_msg "no update image found"
+        fi
+}
+
+prereqs()
+{
+	echo "${PREREQ}"
+}
+
+case ${1} in
+	prereqs)
+		prereqs
+		exit 0
+		;;
+esac
+
+SPLASH="false"
+. /scripts/functions
+
+for x in $(cat /proc/cmdline); do
+	case $x in
+	data=*)
+		DATA=${x#data=}
+		DATA=$(resolve_device "$DATA")
+		;;
+        root=*)
+                ROOT=${x#root=}
+                ROOT=$(resolve_device "$ROOT")
+                ;;
+	esac
+done
+
+if [ -n "${DATA}" ]; then
+        [ -d /data ] || mkdir /data
+        mount -t ext4 -o nodev,noexec,nosuid,rw "${DATA}" /data
+        update_system ${ROOT}
+        umount /data
+fi
