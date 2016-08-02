@@ -5,7 +5,7 @@
 # Required-Stop:
 # Default-Start: 3
 # Default-Stop:
-# Short-Description: Resize the root filesystem to fill partition
+# Short-Description: Resize the data filesystem to fill partition
 # Description:
 ### END INIT INFO
 . /lib/lsb/init-functions
