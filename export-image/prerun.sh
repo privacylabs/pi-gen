@@ -59,4 +59,4 @@ mkdir -p ${ROOTFS_DIR}/data
 mount -v $DATA_DEV ${ROOTFS_DIR}/data -t ext4
 
 rsync ${EXPORT_ROOTFS_DIR}/ ${ROOTFS_DIR}/ -aHAX
-dd if=/dev/mapper/${LOOP_DEV}p2 of=${SYS_FILE}
+
