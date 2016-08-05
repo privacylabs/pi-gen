@@ -4,3 +4,5 @@ config
 SKIP
 .pc
 *-pc
+.idea
+.vagrant
