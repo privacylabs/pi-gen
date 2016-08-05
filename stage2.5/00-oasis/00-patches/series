@@ -1,2 +1,3 @@
 00-resize-init.diff
 01-fstab.diff
+02-initramfs-modules.diff
