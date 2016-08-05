@@ -1,0 +1,7 @@
+--- a/rootfs/etc/initramfs-tools/modules
++++ b/rootfs/etc/initramfs-tools/modules
+@@ -9,3 +9,4 @@
+ #
+ # raid1
+ # sd_mod
++overlay
