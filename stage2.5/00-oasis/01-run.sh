@@ -8,3 +8,5 @@ install -m 755 files/initramfs/overlay.script	${ROOTFS_DIR}/etc/initramfs-tools/
 install -m 755 files/initramfs/oasis.hook	${ROOTFS_DIR}/etc/initramfs-tools/hooks/oasis
 install -m 755 files/initramfs/overlay.hook	${ROOTFS_DIR}/etc/initramfs-tools/hooks/overlay
 install -m 755 files/initramfs.gz		${ROOTFS_DIR}/boot/initramfs.gz
+install -m 644 files/02periodic			${ROOTFS_DIR}/etc/apt/apt.conf.d/
+install -m 644 files/50unattended-upgrades	${ROOTFS_DIR}/etc/apt/apt.conf.d/
