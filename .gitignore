@@ -6,3 +6,4 @@ SKIP
 *-pc
 .idea
 .vagrant
+data/*

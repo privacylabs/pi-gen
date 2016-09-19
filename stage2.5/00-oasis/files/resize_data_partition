@@ -130,6 +130,7 @@ mount -t sysfs sys /sys
 
 mount /boot
 sed -i 's/ quiet init=.*$//' /boot/cmdline.txt
+sed -i 's/#initramfs initramfs.gz/initramfs initramfs.gz/' /boot/config.txt
 mount /boot -o remount,ro
 sync
 

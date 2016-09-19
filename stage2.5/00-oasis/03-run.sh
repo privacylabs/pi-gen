@@ -11,4 +11,7 @@ mkdir /run/shm
 fi
 mount /run/shm
 cd oasis && ansible-playbook -i inventory image.yml --tags "packages"
+pkill -9 slapd
+pkill -9 ntpd
+umount /run/shm
 EOF

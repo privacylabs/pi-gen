@@ -1,3 +1,4 @@
 samba
 python-pip python-crypto libffi-dev libssl-dev python-dev python-yaml git
 unattended-upgrades apt-listchanges
+sqlite
