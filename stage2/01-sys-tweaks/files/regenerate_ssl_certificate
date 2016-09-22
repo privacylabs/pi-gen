@@ -1,0 +1,33 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          regenerate_ssl_certificate
+# Required-Start:
+# Required-Stop:
+# Default-Start: 2
+# Default-Stop:
+# Short-Description: Regenerate ssl certificate
+# Description:
+### END INIT INFO
+
+. /lib/lsb/init-functions
+
+set -e
+
+case "$1" in
+  start)
+    log_daemon_msg "Regenerating ssl self signed certificate (in background)"
+    nohup sh -c "if [ -e /dev/hwrng ]; then
+          dd if=/dev/hwrng of=/dev/urandom count=1 bs=4096
+      fi; \
+      make-ssl-cert generate-default-snakeoil --force-overwrite && \
+      sync && \
+      rm /etc/init.d/regenerate_ssl_certificate && \
+      update-rc.d regenerate_ssl_certificate remove && \
+      printf '\nfinished\n' && systemctl start ssh" > /var/log/regen_ssl_certificate.log 2>&1 &
+    log_end_msg $?
+    ;;
+  *)
+    echo "Usage: $0 start" >&2
+    exit 3
+    ;;
+esac

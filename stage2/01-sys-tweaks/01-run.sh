@@ -1,6 +1,7 @@
 #!/bin/bash -e
 
 install -m 755 files/regenerate_ssh_host_keys		${ROOTFS_DIR}/etc/init.d/
+install -m 755 files/regenerate_ssl_certificate		${ROOTFS_DIR}/etc/init.d/
 install -m 755 files/apply_noobs_os_config		${ROOTFS_DIR}/etc/init.d/
 install -m 755 files/resize2fs_once			${ROOTFS_DIR}/etc/init.d/
 
@@ -19,6 +20,7 @@ systemctl disable ssh
 systemctl enable regenerate_ssh_host_keys
 systemctl enable apply_noobs_os_config
 systemctl enable resize2fs_once
+systemctl enable regenerate_ssl_certificate
 EOF
 
 on_chroot sh -e - << \EOF
