@@ -13,3 +13,6 @@ install -m 755 files/initramfs/oasis.hook	${ROOTFS_DIR}/etc/initramfs-tools/hook
 install -m 755 files/initramfs/overlay.hook	${ROOTFS_DIR}/etc/initramfs-tools/hooks/overlay
 install -m 755 files/initramfs.gz		${ROOTFS_DIR}/boot/initramfs.gz
 install -m 644 files/oasis-configurator_armhf.deb	${ROOTFS_DIR}/etc/oasis/
+install -m 755 files/healthcheck		${ROOTFS_DIR}/usr/local/sbin/
+install -m 755 files/healthcheck.service	${ROOTFS_DIR}/etc/systemd/system/
+
