@@ -1,0 +1,28 @@
+#!/bin/bash
+
+
+while true; do
+	sleep 1m
+
+	DOMAIN=`sed -n -e 's/^\s*myhostname\s*=\s*//p' /etc/postfix/main.cf`
+	nc -z -v -w 3 www.google.com 80 &> /dev/null
+	netup=$?
+	nc -z -v -w 3 $DOMAIN 993 &> /dev/null
+	domainup=$?
+#	if [ $netup -ne 0 ] || [ $domainup -eq 0 ]; then
+	if [ $domainup -eq 0 ]; then
+		continue
+	fi
+
+	STATUS=`systemctl status openvpn`
+	if [[ $STATUS =~ "disabled" ]]
+	then
+		continue
+	fi
+	
+	nc -z -v -w 3 localhost 993 &> /dev/null
+	if [ $? -eq 0 ]; then
+		echo "healthcheck: restarting openvpn service ..."
+		sudo systemctl restart openvpn
+	fi
+done

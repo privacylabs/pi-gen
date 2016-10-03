@@ -11,9 +11,11 @@ rm -rf ${ROOTFS_DIR}
 mkdir -p ${ROOTFS_DIR}
 
 BOOT_SIZE=$(du -sh ${EXPORT_ROOTFS_DIR}/boot -B M | cut -f 1 | tr -d M)
-ROOT_SIZE=$(du -sh ${EXPORT_ROOTFS_DIR} -B M | cut -f 1 | tr -d M)
+#ROOT_SIZE=$(du -sh ${EXPORT_ROOTFS_DIR} -B M | cut -f 1 | tr -d M)
+ROOT_SIZE=2048
 
-IMG_SIZE=$(expr $BOOT_SIZE \* 2 \+ $ROOT_SIZE \* 2 \+ 80)M
+#IMG_SIZE=$(expr $BOOT_SIZE \* 2 \+ $ROOT_SIZE \* 2 \+ 80)M
+IMG_SIZE=$(expr $BOOT_SIZE \* 2 \+ $ROOT_SIZE \+ 80)M
 
 fallocate -l ${IMG_SIZE} ${IMG_FILE}
 fdisk ${IMG_FILE} > /dev/null 2>&1 <<EOF
@@ -31,7 +33,7 @@ n
 
 8192
 
-+`expr $ROOT_SIZE \* 2`M
++`expr $ROOT_SIZE`M
 p
 n
 

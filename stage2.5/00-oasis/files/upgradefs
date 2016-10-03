@@ -1,0 +1,32 @@
+#!/bin/bash
+
+CURRENT=2
+VERSION=`cat /etc/fsversion`
+
+if [ ! -f /etc/fsversion ]; then
+	sudo rm -f /data/upper/etc/passwd
+	sudo rm -rf /data/upper/usr
+	sudo rm -rf /data/usr/lib
+
+	echo 1 | sudo tee /etc/fsversion
+	sudo reboot
+
+fi	
+
+if [ ! $VERSION == $CURRENT ]; then
+	sudo systemctl stop postfix
+	sudo chown -R postfix /var/lib/postfix
+	sudo chown -R _rspamd /var/lib/rspamd
+	sudo chown -R _rspamd /var/log/rspamd
+	sudo chown -R opendkim /var/log/dkim-filter
+	sudo chown -R redis /var/log/redis
+	sudo chown -R redis /var/lib/redis
+	sudo chown -R caldavd /var/log/caldavd
+	sudo chown -R caldavd /etc/caldavd
+	sudo chown -R caldavd /data/caldavd
+	sudo chown -R postgres /var/log/postgresql
+	sudo chown -R postgres /var/lib/postgresql
+	sudo postfix set-permissions
+	echo 2 | sudo tee /etc/fsversion
+	sudo systemctl restart postfix
+fi

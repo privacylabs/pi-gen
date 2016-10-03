@@ -1,0 +1,16 @@
+[Unit]
+Description=Privacy Labs Healthcheck
+After=syslog.target
+After=network.target
+
+[Service]
+Type=simple
+User=pi
+Group=pi
+WorkingDirectory=/home/pi
+ExecStart=/usr/local/sbin/healthcheck
+Restart=always
+Environment=USER=pi HOME=/home/pi
+
+[Install]
+WantedBy=multi-user.target
