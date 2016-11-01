@@ -88,7 +88,7 @@ Vagrant.configure(2) do |config|
 $script = <<SCRIPT
 mkdir -p /home/vagrant/src
 cp -r /vagrant/* /home/vagrant/src/
-cd  /home/vagrant/src && sudo APT_PROXY=$APT_PROXY ./build.sh --hostname='privacylabs' --password='raspberry'
+cd  /home/vagrant/src && sudo APT_PROXY=$APT_PROXY ./build.sh --hostname='raspberrypi' --password='raspberry'
 cp /home/vagrant/src/deploy/*.zip /vagrant_data/
 SCRIPT
 
