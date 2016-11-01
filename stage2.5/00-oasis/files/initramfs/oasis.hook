@@ -19,3 +19,5 @@ esac
 copy_exec /usr/bin/find /bin
 copy_exec /usr/bin/head /bin
 copy_exec /bin/rm /bin
+copy_exec /usr/bin/gpg /bin
+cp /etc/privacylabs.pub "${DESTDIR}/etc"

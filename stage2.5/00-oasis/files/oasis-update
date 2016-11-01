@@ -25,10 +25,13 @@ date_latest=$(date -d $latest_date +"%Y%m%d")
 if [ $date_latest -gt $date_current ]; then
         logger -s "Detected oasis system update.  Beginning update process."
         mkdir -p /data/cache/system
+        chmod 777 /data/cache/system
         if [ ! -f /data/cache/system/$latest_date-oasis-system* ]; then
                 rm -f /data/cache/system/*.zip
                 wget --directory-prefix=/data/cache/system --tries=10 $latest
                 cd /data/cache/system && rm -f *.img && unzip $latest_file
+                chmod 666 /data/cache/system/*
+                rm -f $latest_file
         fi
         logger -s "Rebooting system to apply oasis system update."
         reboot

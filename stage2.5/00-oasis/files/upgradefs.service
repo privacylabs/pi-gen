@@ -1,7 +1,6 @@
 [Unit]
 Description=Privacy Labs Filesystem Upgrade
-After=syslog.target
-After=network.target
+After=var-log.mount
 
 [Service]
 Type=oneshot
@@ -12,4 +11,4 @@ ExecStart=/usr/local/sbin/upgradefs
 Environment=USER=pi HOME=/home/pi
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=postgresql.service postgresql@9.4-main.service redis-server.service

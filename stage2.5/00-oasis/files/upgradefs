@@ -1,5 +1,31 @@
 #!/bin/bash
 
+if [ ! -d /var/log/nginx ]; then
+        sudo mkdir /var/log/nginx
+fi
+
+if [ ! -d /var/log/redis ]; then
+        sudo mkdir /var/log/redis
+        sudo chown -R redis /var/log/redis
+fi
+
+if [ ! -d /data/cache/system ]; then
+        sudo mkdir -p /data/cache/system
+fi
+
+sudo chmod 777 /data/cache/system
+sudo rm -rf /data/cache/system/*
+
+if [ ! -d /var/log/rspamd ]; then
+	sudo mkdir /var/log/rspamd
+	sudo chown -R _rspamd /var/log/rspamd
+fi
+
+if [ ! -d /var/log/caldavd ]; then
+	sudo mkdir /var/log/caldavd
+	sudo chown -R caldavd /var/log/caldavd
+fi
+
 CURRENT=2
 VERSION=`cat /etc/fsversion`
 
@@ -29,4 +55,5 @@ if [ ! $VERSION == $CURRENT ]; then
 	sudo postfix set-permissions
 	echo 2 | sudo tee /etc/fsversion
 	sudo systemctl restart postfix
+	sudo systemctl restart postgresql
 fi

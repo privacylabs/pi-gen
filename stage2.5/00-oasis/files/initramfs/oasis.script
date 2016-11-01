@@ -5,13 +5,30 @@ PREREQ="udev"
 update_system()
 {
         latest=$(find /data/cache/system/ -name *.img | head -1)
-        if [ -n $latest ]; then
+        if [ -f $latest ]; then
                 log_warning_msg "system image found, performing update"
-                dd if="$latest" of="$1"
-                rm /data/cache/system/*.img
+                gpg --no-default-keyring --ignore-time-conflict --keyring /etc/privacylabs.pub --verify "$latest".gpg "$latest"
+                if [ $? -ne 0 ]; then
+                    log_warning_msg "unable to verify system image signature, exiting update"
+                    exit 1
+                else
+                    log_warning_msg "successfully verified system image signature"
+                    log_warning_msg "beginning to flash new system image"
+                    dd if="$latest" of="$1"
+                    log_warning_msg "finished flashing new system image"
+                    rm /data/cache/system/*.img
+                    rm /data/cache/system/*.gpg
+                fi
         else
                 log_warning_msg "no update image found"
         fi
+}
+
+reset_system()
+{
+    if [ -f /data/cache/system/reset ]; then
+            rm -rf /data/*
+    fi
 }
 
 prereqs()
@@ -46,5 +63,6 @@ if [ -n "${DATA}" ]; then
         [ -d /data ] || mkdir /data
         mount -t ext4 -o nodev,noexec,nosuid,rw "${DATA}" /data
         update_system ${ROOT}
+        reset_system ${ROOT}
         umount /data
 fi
