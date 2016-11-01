@@ -6,5 +6,4 @@ pip install cryptography --upgrade
 pip install boto
 pip install ansible --upgrade
 systemctl enable healthcheck
-systemctl enable upgradefs
 EOF
